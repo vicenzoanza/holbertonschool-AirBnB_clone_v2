@@ -132,7 +132,7 @@ class HBNBCommand(cmd.Cmd):
             for parameter in tokenized_args[1:]:
                 key, value = parameter.split('=')  # tokenized by =
                 if value.startswith('"') and value.endswith('"'):
-                    value = value[1:-1].replace('-', ' ').replace('\\"', '"')
+                    value = value[1:-1].replace('_', ' ').replace('\\"', '"')
                     # we skip -1 position wich contains the ""
                 elif '.' in value:  # if value has a . we convert to float
                     value = float(value)
