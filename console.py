@@ -73,7 +73,7 @@ class HBNBCommand(cmd.Cmd):
                 pline = pline[2].strip()  # pline is now str
                 if pline:
                     # check for *args or **kwargs
-                    if pline[0] is '{' and pline[-1] is'}'\
+                    if pline[0] is '{' and pline[-1] is '}'\
                             and type(eval(pline)) is dict:
                         _args = pline
                     else:
@@ -115,10 +115,12 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, args):
         """ Create an object of any class"""
-        tokenized_args = args.split()# tokenized by spaces
-        if tokenized_args: 
+
+        tokenized_args = args.split()
+        # tokenized by spaces
+        if tokenized_args:
             class_name = tokenized_args[0]
-        
+
         if not args:
             print("** class name missing **")
             return
@@ -128,19 +130,19 @@ class HBNBCommand(cmd.Cmd):
         else:
             attr = {}
             for parameter in tokenized_args[1:]:
-                key, value = parameter.split('=')#tokenized by =
+                key, value = parameter.split('=')  # tokenized by =
                 if value.startwith('"') and value.endwith('"'):
-                    value = value[1:-1].replace('-', ' ').replace('\\"', '"')#we skip -1 position wich contains the ""
-                elif '.' in value:#if value has a . we convert to float
+                    value = value[1:-1].replace('-', ' ').replace('\\"', '"')
+                    # we skip -1 position wich contains the ""
+                elif '.' in value:  # if value has a . we convert to float
                     value = float(value)
                 else:
                     try:
-                        value = int(value)# if doesnt have a . we try to convert to int
+                        value = int(value)
+                        # if doesnt have a . we try to convert to int
                     except ValueError:
                         continue
                 attr[key] = value
-
-
         new_instance = HBNBCommand.classes[class_name]()
         new_instance.__dict__.update(attr)
         storage.new(new_instance)
@@ -208,7 +210,7 @@ class HBNBCommand(cmd.Cmd):
         key = c_name + "." + c_id
 
         try:
-            del(storage.all()[key])
+            del (storage.all()[key])
             storage.save()
         except KeyError:
             print("** no instance found **")
@@ -340,6 +342,7 @@ class HBNBCommand(cmd.Cmd):
         """ Help information for the update class """
         print("Updates an object with new information")
         print("Usage: update <className> <id> <attName> <attVal>\n")
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
