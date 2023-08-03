@@ -6,7 +6,7 @@ from os import getenv
 
 
 class State(BaseModel, Base):
-    """State class for storing state information"""
+    """ State class """
     __tablename__ = 'states'
     name = Column(String(128), nullable=False)
     if getenv('HBNB_TYPE_STORAGE') == 'db':
@@ -15,9 +15,8 @@ class State(BaseModel, Base):
         @property
         def cities(self):
             from models import storage
-            from models.city import City
             cities_list = []
-            for key,value in storage.all(City):
-                if value["state_id"] == self.id:
-                    cities_list.append(value)
+            for city in storage.all(City).values():
+                if city.state_id == self.id:
+                    cities_list.append(city)
             return cities_list

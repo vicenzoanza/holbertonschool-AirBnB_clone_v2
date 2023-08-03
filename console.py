@@ -19,15 +19,15 @@ class HBNBCommand(cmd.Cmd):
     prompt = '(hbnb) ' if sys.__stdin__.isatty() else ''
 
     classes = {
-            'BaseModel': BaseModel, 'User': User, 'Place': Place,
-            'State': State, 'City': City, 'Amenity': Amenity,
-            'Review': Review
-            }
+               'BaseModel': BaseModel, 'User': User, 'Place': Place,
+               'State': State, 'City': City, 'Amenity': Amenity,
+               'Review': Review
+              }
     dot_cmds = ['all', 'count', 'show', 'destroy', 'update']
     types = {
-            'number_rooms': int, 'number_bathrooms': int,
-            'max_guest': int, 'price_by_night': int,
-            'latitude': float, 'longitude': float
+             'number_rooms': int, 'number_bathrooms': int,
+             'max_guest': int, 'price_by_night': int,
+             'latitude': float, 'longitude': float
             }
 
     def preloop(self):
@@ -74,7 +74,7 @@ class HBNBCommand(cmd.Cmd):
                 if pline:
                     # check for *args or **kwargs
                     if pline[0] == '{' and pline[-1] == '}'\
-                            and type(eval(pline)) is dict:
+                            and type(eval(pline)) == dict:
                         _args = pline
                     else:
                         _args = pline.replace(',', '')
@@ -114,39 +114,36 @@ class HBNBCommand(cmd.Cmd):
         pass
 
     def do_create(self, args):
-        """ Create an object of any class,
-        with all the corresponding parameters"""
-        # we tokenize the arguments by spaces
-        tokenize_arguments = args.split()
-        if tokenize_arguments:
-            class_name = tokenize_arguments[0]
+        """ Create an object of any class"""
         if not args:
             print("** class name missing **")
             return
-        elif class_name not in HBNBCommand.classes:
+        elif args.split()[0] not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
         else:
-            attributes = {}
-            for parameter in tokenize_arguments[1:]:
-                key, value = parameter.split('=')
-                if value.startswith('"') and value.endswith('"'):
-                    value = value[1:-1].replace('_', ' ').replace('\\"', '"')
-                elif '.' in value:
-                    value = float(value)
-                else:
-                    try:
-                        value = int(value)
-                    except ValueError:
-                        continue
-                attributes[key] = value
-        new_instance = HBNBCommand.classes[class_name]()
-        # I update the dictionary with the new attributes
-        new_instance.__dict__.update(attributes)
+            kwargs = {}
+            for arg in args.split():
+                if "=" in arg:
+                    key, value = arg.split("=")
+                    if value[0] == '"' and value[-1] == '"':
+                        value = value[1:-1].replace("_", " ") \
+                            .replace('\\"', '"')
+                    elif "." in value:
+                        value = float(value)
+                    else:
+                        try:
+                            value = int(value)
+                        except Exception as e:
+                            continue
+                    kwargs[key] = value
+        new_instance = HBNBCommand.classes[args.split()[0]]()
+        new_instance.__dict__.update(kwargs)
         storage.new(new_instance)
-        # serialization
         storage.save()
         print(new_instance.id)
+        storage.save()
+
 
     def help_create(self):
         """ Help information for the create method """
@@ -205,9 +202,11 @@ class HBNBCommand(cmd.Cmd):
         if not c_id:
             print("** instance id missing **")
             return
+
         key = c_name + "." + c_id
+
         try:
-            del (storage.all()[key])
+            del(storage.all()[key])
             storage.save()
         except KeyError:
             print("** no instance found **")
@@ -226,11 +225,11 @@ class HBNBCommand(cmd.Cmd):
             if args not in HBNBCommand.classes:
                 print("** class doesn't exist **")
                 return
-            for k, v in storage.all().items():
+            for k, v in storage._FileStorage__objects.items():
                 if k.split('.')[0] == args:
                     print_list.append(str(v))
         else:
-            for k, v in storage.all().items():
+            for k, v in storage._FileStorage__objects.items():
                 print_list.append(str(v))
 
         print(print_list)
@@ -339,6 +338,7 @@ class HBNBCommand(cmd.Cmd):
         """ Help information for the update class """
         print("Updates an object with new information")
         print("Usage: update <className> <id> <attName> <attVal>\n")
+
 
 
 if __name__ == "__main__":
