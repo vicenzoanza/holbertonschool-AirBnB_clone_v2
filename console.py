@@ -19,15 +19,15 @@ class HBNBCommand(cmd.Cmd):
     prompt = '(hbnb) ' if sys.__stdin__.isatty() else ''
 
     classes = {
-               'BaseModel': BaseModel, 'User': User, 'Place': Place,
-               'State': State, 'City': City, 'Amenity': Amenity,
-               'Review': Review
-              }
+            'BaseModel': BaseModel, 'User': User, 'Place': Place,
+            'State': State, 'City': City, 'Amenity': Amenity,
+            'Review': Review
+            }
     dot_cmds = ['all', 'count', 'show', 'destroy', 'update']
     types = {
-             'number_rooms': int, 'number_bathrooms': int,
-             'max_guest': int, 'price_by_night': int,
-             'latitude': float, 'longitude': float
+            'number_rooms': int, 'number_bathrooms': int,
+            'max_guest': int, 'price_by_night': int,
+            'latitude': float, 'longitude': float
             }
 
     def preloop(self):
@@ -74,7 +74,7 @@ class HBNBCommand(cmd.Cmd):
                 if pline:
                     # check for *args or **kwargs
                     if pline[0] == '{' and pline[-1] == '}'\
-                            and type(eval(pline)) == dict:
+                            and type(eval(pline)) is dict:
                         _args = pline
                     else:
                         _args = pline.replace(',', '')
@@ -114,13 +114,12 @@ class HBNBCommand(cmd.Cmd):
         pass
 
     def do_create(self, args):
-        """ Create an object of any class"""
-
-        tokenized_args = args.split()
-        # tokenized by spaces
-        if tokenized_args:
-            class_name = tokenized_args[0]
-
+        """ Create an object of any class,
+        with all the corresponding parameters"""
+        # we tokenize the arguments by spaces
+        tokenize_arguments = args.split()
+        if tokenize_arguments:
+            class_name = tokenize_arguments[0]
         if not args:
             print("** class name missing **")
             return
@@ -128,27 +127,26 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
             return
         else:
-            attr = {}
-            for parameter in tokenized_args[1:]:
-                key, value = parameter.split('=')  # tokenized by =
+            attributes = {}
+            for parameter in tokenize_arguments[1:]:
+                key, value = parameter.split('=')
                 if value.startswith('"') and value.endswith('"'):
                     value = value[1:-1].replace('_', ' ').replace('\\"', '"')
-                    # we skip -1 position wich contains the ""
-                elif '.' in value:  # if value has a . we convert to float
+                elif '.' in value:
                     value = float(value)
                 else:
                     try:
                         value = int(value)
-                        # if doesnt have a . we try to convert to int
                     except ValueError:
                         continue
-                attr[key] = value
+                attributes[key] = value
         new_instance = HBNBCommand.classes[class_name]()
-        new_instance.__dict__.update(attr)
+        # I update the dictionary with the new attributes
+        new_instance.__dict__.update(attributes)
         storage.new(new_instance)
+        # serialization
         storage.save()
         print(new_instance.id)
-        
 
     def help_create(self):
         """ Help information for the create method """
@@ -207,9 +205,7 @@ class HBNBCommand(cmd.Cmd):
         if not c_id:
             print("** instance id missing **")
             return
-
         key = c_name + "." + c_id
-
         try:
             del (storage.all()[key])
             storage.save()
@@ -230,11 +226,11 @@ class HBNBCommand(cmd.Cmd):
             if args not in HBNBCommand.classes:
                 print("** class doesn't exist **")
                 return
-            for k, v in storage._FileStorage__objects.items():
+            for k, v in storage.all().items():
                 if k.split('.')[0] == args:
                     print_list.append(str(v))
         else:
-            for k, v in storage._FileStorage__objects.items():
+            for k, v in storage.all().items():
                 print_list.append(str(v))
 
         print(print_list)
