@@ -66,4 +66,3 @@ class Place(BaseModel, Base):
             from models.amenity import Amenity
             if isinstance(amenity, Amenity):
                 self.amenity_ids.append(amenity.id)
-
