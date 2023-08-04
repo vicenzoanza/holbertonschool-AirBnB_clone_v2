@@ -48,7 +48,6 @@ class Place(BaseModel, Base):
             return review_list
 
         @property
-        @property
         def amenities(self):
             """Returns the list of Amenity instances
             with place_id equals to the current Place.id"""
@@ -65,4 +64,4 @@ class Place(BaseModel, Base):
             """ Setter attribute amenities """
             from models.amenity import Amenity
             if isinstance(amenity, Amenity):
-                self.amenity_ids.append(amenity.id)
+                self.amenities.append(amenity)
