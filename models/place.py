@@ -5,6 +5,7 @@ from sqlalchemy import Column, String, ForeignKey, Integer, Float, Table
 from sqlalchemy.orm import relationship
 from os import getenv
 
+
 place_amenity = Table('place_amenity', Base.metadata,
                       Column('place_id', String(60),
                              ForeignKey('places.id'),
@@ -13,6 +14,7 @@ place_amenity = Table('place_amenity', Base.metadata,
                              ForeignKey('amenities.id'),
                              primary_key=True, nullable=False)
                       )
+
 
 class Place(BaseModel, Base):
     """ A place to stay """
@@ -33,7 +35,7 @@ class Place(BaseModel, Base):
                                backref='places')
         amenities = relationship("Amenity", secondary=place_amenity,
                                  back_populates='place_amenities')
-        
+
     else:
         @property
         def reviews(self):
@@ -46,19 +48,22 @@ class Place(BaseModel, Base):
             return review_list
 
         @property
+        @property
         def amenities(self):
             """Returns the list of Amenity instances
-            with place_id equals to the current Amenity.id"""
+            with place_id equals to the current Place.id"""
             from models.amenity import Amenity
             from models import storage
             listed = []
-            for k, v in storage.all(Amenity).items():
-                if v["place_id"] == self.id:
-                    listed.append(v)
+            for amenity in storage.all(Amenity).values():
+                if amenity.place_id == self.id:
+                    listed.append(amenity)
             return listed
 
         @amenities.setter
-        def amenities(self, append):
+        def amenities(self, amenity):
             """ Setter attribute amenities """
-            if type(append).__name__ == "Amenity":
-                self.amenity_ids.append(append.id)
+            from models.amenity import Amenity
+            if isinstance(amenity, Amenity):
+                self.amenity_ids.append(amenity.id)
+
