@@ -5,6 +5,7 @@ from models.base_model import BaseModel, Base
 from os import getenv
 
 
+
 class State(BaseModel, Base):
     """ State class """
     __tablename__ = 'states'
