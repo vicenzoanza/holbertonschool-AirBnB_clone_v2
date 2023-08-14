@@ -23,7 +23,8 @@ def display_c_text(text):
     text_with_spaces = text.replace('_', ' ')
     return "c {}".format(text_with_spaces)
 
-@app.route('/python/', defaults={'text': 'Python is cool'}, strict_slashes=False)
+
+@app.route('/python/', defaults={'text': ' is cool'}, strict_slashes=False)
 @app.route('/python/<text>', strict_slashes=False)
 def display_p_text(text):
     text_with_spaces = text.replace('_', ' ')
