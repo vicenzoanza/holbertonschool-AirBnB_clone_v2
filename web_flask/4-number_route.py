@@ -30,6 +30,7 @@ def display_p_text(text):
     text_with_spaces = text.replace('_', ' ')
     return "Python {}".format(text_with_spaces)
 
+
 @app.route('/number/<n>', strict_slashes=False)
 def is_num(n):
     try:
