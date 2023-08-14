@@ -35,9 +35,9 @@ def is_num(n):
     try:
         n_int = int(n)
         if isinstance(n_int, int):
-            return n
+            return "{} is a number".format(n)
     except ValueError:
-        pass
+        return 404
 
 
 if __name__ == '__main__':
