@@ -46,9 +46,10 @@ def is_number(n):
     try:
         n_int = int(n)
         if isinstance(n_int, int):
-            return render_template("5-number.html", n = n_int)
+            return render_template("5-number.html", n=n_int)
     except ValueError:
         abort(404)
+
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
