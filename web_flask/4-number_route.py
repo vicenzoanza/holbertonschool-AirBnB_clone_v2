@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 '''starts a script'''
-from flask import Flask
+from flask import Flask, abort
 
 
 app = Flask(__name__)
@@ -37,7 +37,7 @@ def is_num(n):
         if isinstance(n_int, int):
             return "{} is a number".format(n)
     except ValueError:
-        return 404
+        abort(404)
 
 
 if __name__ == '__main__':
