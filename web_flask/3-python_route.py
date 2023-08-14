@@ -21,13 +21,13 @@ def hbnb():
 @app.route('/c/<text>', strict_slashes=False)
 def display_c_text(text):
     text_with_spaces = text.replace('_', ' ')
-    return "Python {}".format(text_with_spaces)
+    return "c {}".format(text_with_spaces)
 
 @app.route('/python/', defaults={'text': 'Python is cool'}, strict_slashes=False)
 @app.route('/python/<text>', strict_slashes=False)
 def display_p_text(text):
     text_with_spaces = text.replace('_', ' ')
-    return "C {}".format(text_with_spaces)
+    return "Python {}".format(text_with_spaces)
 
 
 if __name__ == '__main__':
