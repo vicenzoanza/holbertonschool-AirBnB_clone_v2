@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""start of the script"""
+"""start of the"""
 from sqlalchemy.orm import relationship
 from sqlalchemy import Column, String
 from models.base_model import BaseModel, Base
@@ -15,8 +15,8 @@ class State(BaseModel, Base):
     else:
         @property
         def cities(self):
-            """"Returns the list of City instances
-        with state_id equals to the current State.id""""
+            """Returns the list of City instances
+        with state_id equals to the current State.id"""
             from models import storage
             from models.city import City
             cities_list = []
