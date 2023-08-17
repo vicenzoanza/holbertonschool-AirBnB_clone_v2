@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 
 @app.teardown_appcontext
-def app_teardown_appcontext():
+def close_session():
     "Close the session after each request"
     storage.close()
 
@@ -15,8 +15,8 @@ def app_teardown_appcontext():
 @app.route("/states_list", strict_slashes=False)
 def states_list():
     """gets all of the State objects from the storage engine"""
-    return render_template("7-states_list.html",
-                           states=storage.all(State).values().order_by(State.name))
+    states = storage.all(State).values().order_by(State.name)
+    return render_template("7-states_list.html", states=states)
 
 
 if __name__ == "__main__":
