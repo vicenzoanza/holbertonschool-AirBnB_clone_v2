@@ -41,12 +41,8 @@ def ab5(n):
 
 @app.route('/number_odd_or_even/<n>', strict_slashes=False)
 def ab6(n):
-    if (n % 2) == 0:
-        num = f'{n} is even'
-    else:
-        num = f'{n} is odd'
     return render_template('6-number_odd_or_even.html', n=n)
-  
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000)
