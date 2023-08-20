@@ -7,17 +7,17 @@ app = Flask(__name__)
 
 
 @app.route('/')
-def hello_ab():
+def ab():
     return "Hello HBNB!"
 
 
 @app.route('/hbnb')
-def hello_ab1():
+def ab1():
     return "HBNB"
 
 
 @app.route('/c/<text>')
-def hello_ab2(text):
+def ab2(text):
     text = text.replace("_", " ")
     return f"C {text}"
 

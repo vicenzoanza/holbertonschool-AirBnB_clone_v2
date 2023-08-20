@@ -7,11 +7,11 @@ app = Flask(__name__)
 
 
 @app.route('/')
-def hello_ab():
+def ab():
     return "Hello HBNB!"
 
 @app.route('/hbnb')
-def hello_ab1():
+def ab1():
     return "HBNB"
 
 if __name__ == "__main__":
