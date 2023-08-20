@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """ Write a script that starts a Flask web """
-from flask import Flask
+from flask import Flask, render_template
 
 
 app = Flask(__name__)
@@ -32,6 +32,7 @@ def ab3(text):
 @app.route('/number/<int:n>', strict_slashes=False)
 def ab4(n):
     return f"{n} is a number"
+
 
 @app.route('/number_template/<n>', strict_slashes=False)
 def ab5(n):
