@@ -24,8 +24,8 @@ def hello_ab2(text):
 @app.route('/python/', defaults={'text': 'is cool'}, strict_slashes=False)
 @app.route('/python/<text>', strict_slashes=False)
 def hello_ab3(text):
-text = text.replace('_', ' ')
-return f"Python {text}"
+    text = text.replace('_', ' ')
+    return f"Python {text}"
 
 
 if __name__ == "__main__":
