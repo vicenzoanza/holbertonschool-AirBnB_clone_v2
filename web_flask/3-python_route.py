@@ -21,9 +21,9 @@ def hello_ab2(text):
     text = text.replace("_", " ")
     return f"C {text}"
 
+@app.route('/python/', defaults={'text': 'is cool'})
 @app.route('/python/<text>')
 def hello_ab3(text):
-text = 'is cool'
 text = text.replace('_', ' ')
 return f"Python {text}"
 
