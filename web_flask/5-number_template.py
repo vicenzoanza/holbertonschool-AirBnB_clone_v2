@@ -36,9 +36,10 @@ def ab4(n):
 
 @app.route('/number_template/<n>', strict_slashes=False)
 def ab5(n):
-    n = int(n)
-    return render_template('5-number.html', n=n)
-  
+    n_int = int(n)
+    if isinstance(n_int, int):
+        return render_template("5-number.html", n=n_int)
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000)
