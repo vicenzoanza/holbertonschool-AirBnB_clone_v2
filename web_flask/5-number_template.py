@@ -36,6 +36,7 @@ def ab4(n):
 
 @app.route('/number_template/<n>', strict_slashes=False)
 def ab5(n):
+    n = int(n)
     return render_template('5-number.html', n=n)
   
 
