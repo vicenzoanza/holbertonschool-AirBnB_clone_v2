@@ -34,11 +34,9 @@ def ab4(n):
     return f"{n} is a number"
 
 
-@app.route('/number_template/<n>', strict_slashes=False)
+@app.route('/number_template/<int:n>', strict_slashes=False)
 def ab5(n):
-    n_int = int(n)
-    if isinstance(n_int, int):
-        return render_template("5-number.html", n=n_int)
+    return render_template('5-number.html', n=n)
 
 
 if __name__ == "__main__":
